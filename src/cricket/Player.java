@@ -7,12 +7,10 @@ class Player {
 
     public Player(int playerNumber) {
         this.playerNumber = playerNumber;
-        this.runsScored = 0;
-        this.currentlyPlaying = false;
     }
 
     public void increamentRunsScored(int run) {
-        this.runsScored += run;
+        runsScored += run;
         this.currentlyPlaying = true;
     }
 

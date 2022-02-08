@@ -1,40 +1,49 @@
 package cricket;
 
 class Team {
-    private int teamScore;
-    private int teamWicketsDown;
-    private int currentPlayer;
+    private int score;
+    private int numOfWicketsDown;
+    private int currentPlayerIndex;
     private Player[] player;
 
     public Team() {
-        this.player = new Player[11];
-        for(int num=0; num < 11; num++) this.player[num] = new Player(num + 1);
-        this.teamScore = this.teamWicketsDown = 0;
-        this.currentPlayer = 0;
+        player = new Player[MatchUtil.NUM_PLAYERS];
+        for(int num = 1; num <= MatchUtil.NUM_PLAYERS; num++) player[num - 1] = new Player(num);
     }
 
-    public void showTeamScoreBoard(int teamNumber) {
-        System.out.println("Team " + teamNumber + " stats: " + this.teamScore + "/" + this.teamWicketsDown);
-        for(int num = 0; num < 11; num++)
-            System.out.println(player[num].getPlayerDetails());
-    }
-
-    public int getTeamWicketsDown() {
-        return this.teamWicketsDown;
+    public int getNumOfWicketsDown() {
+        return numOfWicketsDown;
     }
 
     public int getTeamScore() {
-        return this.teamScore;
+        return score;
     }
 
-    public void setTeamWicketsDown() {
-        player[currentPlayer].setPlayerOut();
-        this.currentPlayer++;
-        this.teamWicketsDown++;
+    public void increamentWickets() {
+        numOfWicketsDown++;
     }
 
-    public void increamentScore(int runs) {
-        teamScore += runs;
-        player[currentPlayer].increamentRunsScored(runs);
+    public void setCurrentPlayerOut() {
+        player[currentPlayerIndex].setPlayerOut();
+    }
+
+    public void putNextPlayerOnStrike() {
+        currentPlayerIndex++;
+    }
+
+    public void showTeamScoreBoard(int teamNumber) {
+        System.out.println("Team " + teamNumber + " stats: " + score + "/" + numOfWicketsDown);
+
+        for(int num = 0; num < MatchUtil.NUM_PLAYERS; num++) {
+            System.out.println(player[num].getPlayerDetails());
+        }
+    }
+
+    public void increamentScoreOfTeam(int runs) {
+        score += runs;
+    }
+
+    public void increamentScoreOfCurrentPlayer(int runs) {
+        player[currentPlayerIndex].increamentRunsScored(runs);
     }
 }
