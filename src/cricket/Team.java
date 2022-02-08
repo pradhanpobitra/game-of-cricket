@@ -1,10 +1,10 @@
 package cricket;
 
 class Team {
-    private Player[] player;
     private int teamScore;
     private int teamWicketsDown;
     private int currentPlayer;
+    private Player[] player;
 
     public Team() {
         this.player = new Player[11];
@@ -29,12 +29,12 @@ class Team {
 
     public void setTeamWicketsDown() {
         player[currentPlayer].setPlayerOut();
-        currentPlayer++;
+        this.currentPlayer++;
         this.teamWicketsDown++;
     }
 
-    public void registerRuns(int runs) {
+    public void increamentScore(int runs) {
         teamScore += runs;
-        player[currentPlayer].setRunsScored(runs);
+        player[currentPlayer].increamentRunsScored(runs);
     }
 }

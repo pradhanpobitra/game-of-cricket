@@ -11,20 +11,30 @@ class MatchController {
         team[0] = teamZero;
         team[1] = teamOne;
     }
-    public void control() {
-        while(this.playingTeamNumber < 2) {
-            int numOfBalls = this.numOvers * 6;
-
-            while(numOfBalls > 0 && team[playingTeamNumber].getTeamWicketsDown() < 10) {
-                numOfBalls--;
-                int ballOutcome = (int) Math.round(Math.random() * 8);
-                if(ballOutcome == 7)  // player got out
-                    team[playingTeamNumber].setTeamWicketsDown();
-                else team[playingTeamNumber].registerRuns(ballOutcome);
-            }
-            this.playingTeamNumber++;
-        }
+    public void controlGame() {
+        while(this.playingTeamNumber < 2) startNewInnings();
         printResults();
+    }
+
+    private void startNewInnings() {
+        int numOfBalls = this.numOvers * 6;
+
+        while(checkBallsAndWicketsLeft(numOfBalls)) {
+            bowlBall();
+            numOfBalls--;
+        }
+        this.playingTeamNumber++;
+    }
+
+    private void bowlBall() {
+        int ballOutcome = (int) Math.floor(Math.random() * 8);
+        if(ballOutcome == 7)  // player got out
+            team[playingTeamNumber].setTeamWicketsDown();
+        else team[playingTeamNumber].increamentScore(ballOutcome);
+    }
+
+    private boolean checkBallsAndWicketsLeft(int numOfBalls) {
+        return numOfBalls > 0 && team[playingTeamNumber].getTeamWicketsDown() < 10 ? true : false;
     }
 
     private void printResults() {

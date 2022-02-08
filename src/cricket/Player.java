@@ -11,7 +11,7 @@ class Player {
         this.currentlyPlaying = false;
     }
 
-    public void setRunsScored(int run) {
+    public void increamentRunsScored(int run) {
         this.runsScored += run;
         this.currentlyPlaying = true;
     }

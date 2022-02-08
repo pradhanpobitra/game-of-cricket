@@ -7,6 +7,6 @@ class Match {
         teamZero = new Team();
         teamOne = new Team();
         MatchController controller = new MatchController(teamZero,teamOne,numOvers);
-        controller.control();
+        controller.controlGame();
     }
 }
