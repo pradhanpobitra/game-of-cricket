@@ -1,49 +1,104 @@
 package cricket;
 
 class Team {
-    private int score;
-    private int numOfWicketsDown;
-    private int currentPlayerIndex;
-    private Player[] player;
+    private int teamScore;
+    private int teamWicketsLost;
+    private int currentBatsmanIndex;
+    private int currentBowlerIndex;
+    private final Bowler[] bowlers;
+    private final Player[] player;
+    private final String teamName;
 
-    public Team() {
-        player = new Player[MatchUtil.NUM_PLAYERS];
-        for(int num = 1; num <= MatchUtil.NUM_PLAYERS; num++) player[num - 1] = new Player(num);
-    }
+    public static class TeamBuilder {
+        private final Player[] player;
+        private final Bowler[] bowlers;
+        private String teamName;
 
-    public int getNumOfWicketsDown() {
-        return numOfWicketsDown;
-    }
+        public TeamBuilder() {
+            player = new Player[12];
+            bowlers = new Bowler[5];
+        }
 
-    public int getTeamScore() {
-        return score;
-    }
+        public TeamBuilder setTeamName() {
+            System.out.println("Enter the name of team: ");
+            teamName = MatchUtil.getStringInput();
+            return this;
+        }
 
-    public void increamentWickets() {
-        numOfWicketsDown++;
-    }
+        public TeamBuilder selectSixBatsmen() {
+            for(int num = 1; num <= 6; num++) {
+                System.out.println("Enter Batsman Number " + num + "'s name and rating: ");
+                player[num] = new Batsman.BatsmanBuilder().setPlayerName().setPlayerRating().build();
+            }
+            return this;
+        }
 
-    public void setCurrentPlayerOut() {
-        player[currentPlayerIndex].setPlayerOut();
-    }
+        public TeamBuilder selectFiveBowlers() {
+            for(int num = 1; num <= 5; num++) {
+                System.out.println("Enter Bowler Number " + num + "'s name and rating: ");
+                player[num + 6] = new Bowler.BowlerBuilder().setPlayerName().setPlayerRating().build();
+                bowlers[num - 1] = (Bowler) player[num + 6];
+            }
+            return this;
+        }
 
-    public void putNextPlayerOnStrike() {
-        currentPlayerIndex++;
-    }
-
-    public void showTeamScoreBoard(int teamNumber) {
-        System.out.println("Team " + teamNumber + " stats: " + score + "/" + numOfWicketsDown);
-
-        for(int num = 0; num < MatchUtil.NUM_PLAYERS; num++) {
-            System.out.println(player[num].getPlayerDetails());
+        public Team build() {
+            return new Team(player,bowlers,teamName);
         }
     }
 
-    public void increamentScoreOfTeam(int runs) {
-        score += runs;
+    private Team(Player[] player,Bowler[] bowlers,String teamName) {
+        this.player = player;
+        this.bowlers = bowlers;
+        this.teamName = teamName;
+        this.currentBatsmanIndex = 1;
     }
 
-    public void increamentScoreOfCurrentPlayer(int runs) {
-        player[currentPlayerIndex].increamentRunsScored(runs);
+    public int getTeamScore() {
+        return teamScore;
+    }
+
+    public int getNumOfWicketsLost() {
+        return teamWicketsLost;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public Player getCurrentBatsman() {
+        return player[currentBatsmanIndex];
+    }
+
+    public Bowler getCurrentBowler() {
+        int currBowlerIndex = currentBowlerIndex++;
+        currentBowlerIndex %= 5;
+        return bowlers[currBowlerIndex];
+    }
+
+    public void setNextBatsmanOnStrike() {
+        currentBatsmanIndex++;
+    }
+
+    public void increamentTeamScore(int runs) {
+        teamScore += runs;
+    }
+
+    public void increamentWicketsLost() {
+        teamWicketsLost++;
+    }
+
+    public void updateTeamPlayersStats() {
+        for(int num = 1; num <= MatchUtil.NUM_PLAYERS; num++) {
+            player[num].updatePlayerCareerStats();
+        }
+    }
+
+    public void showTeamScoreBoard() {
+        System.out.println("Team - " + teamName + " stats :");
+        System.out.println(teamScore + "/" + teamWicketsLost);
+        for(int  num = 1; num <= MatchUtil.NUM_PLAYERS ; num++) {
+            player[num].showStatsOfPlayer();
+        }
     }
 }

@@ -1,25 +1,33 @@
 package cricket;
 
-class Player {
-    private final int playerNumber;
-    private int runsScored;
-    private boolean currentlyPlaying;
+abstract class Player {
+    protected final double playerRating;
+    protected final String playerName;
+    protected int noOfBallsPlayed;
+    protected int noOfBoundaries;
+    protected int noOfRunsScored;
 
-    public Player(int playerNumber) {
-        this.playerNumber = playerNumber;
+    protected Player(double playerRating,String playerName) {
+        this.playerRating = playerRating;
+        this.playerName = playerName;
     }
 
-    public void increamentRunsScored(int run) {
-        runsScored += run;
-        this.currentlyPlaying = true;
+    public void increamentNumRunsScored(int runs) {
+        noOfRunsScored += runs;
     }
 
-    public void setPlayerOut() {
-        this.currentlyPlaying = false;
+    public void increamentNumBallsPlayed() {
+        noOfBallsPlayed++;
     }
 
-    public String getPlayerDetails() {
-        String details = "Player " + this.playerNumber + ": " + this.runsScored;
-        return this.currentlyPlaying ? details + '*' : details;
+    public void increamentNumBoundaries() {
+        noOfBoundaries++;
     }
+
+    public double getPlayerRating() {
+        return playerRating;
+    }
+
+    abstract public void showStatsOfPlayer();
+    abstract public void updatePlayerCareerStats();
 }
