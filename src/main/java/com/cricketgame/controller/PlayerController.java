@@ -3,7 +3,7 @@ package com.cricketgame.controller;
 import com.cricketgame.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,8 +15,8 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-    @GetMapping("/api/player/runs-scored-in-tournament/")
-    public String getRunsScoredByPlayerInTournament(@RequestParam String playerName) {
+    @GetMapping("/api/player/runs-scored-in-tournament/{playerName}")
+    public String getRunsScoredByPlayerInTournament(@PathVariable String playerName) {
         playerName = playerName.toUpperCase();
         return playerService.getRunsScoredByPlayerInTournament(playerName);
     }
