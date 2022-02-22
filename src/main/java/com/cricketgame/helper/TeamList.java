@@ -1,7 +1,7 @@
-package com.cricketgame.repository;
+package com.cricketgame.helper;
 
-import com.cricketgame.pojo.Player;
-import com.cricketgame.pojo.Team;
+import com.cricketgame.document.Player;
+import com.cricketgame.document.Team;
 import java.util.ArrayList;
 import java.util.Arrays;
 

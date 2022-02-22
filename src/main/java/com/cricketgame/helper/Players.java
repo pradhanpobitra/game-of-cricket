@@ -1,8 +1,8 @@
-package com.cricketgame.repository;
+package com.cricketgame.helper;
 
 import com.cricketgame.pojo.Batsman;
 import com.cricketgame.pojo.Bowler;
-import com.cricketgame.pojo.Player;
+import com.cricketgame.document.Player;
 
 public class Players {
     public static final Player VIRAT_KOHLI = new Batsman(811, "VIRAT_KOHLI");

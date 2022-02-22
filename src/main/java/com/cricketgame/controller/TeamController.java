@@ -17,6 +17,6 @@ public class TeamController {
 
     @GetMapping("/api/num-of-team-wins/{teamName}")
     public String getNumOfTeamWins(@PathVariable String teamName) {
-        return teamService.getNumTeamWins(teamName.toUpperCase());
+        return teamService.getNumTeamWins(teamName);
     }
 }

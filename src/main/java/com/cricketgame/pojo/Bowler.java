@@ -1,15 +1,30 @@
 package com.cricketgame.pojo;
 
-import java.util.HashMap;
+import com.cricketgame.document.Player;
 
 public class Bowler extends Player {
-    private static final HashMap<String,Bowler> bowlerTournamentStats = new HashMap<String,Bowler>();
     private int noOfOversBalled;
     private int noOfMaidenOversBalled;
     private int noOfWicketsTaken;
     private int runsGiven;
 
-    public Bowler(double playerRating,String playerName) {
+    public int getNoOfOversBalled() {
+        return noOfOversBalled;
+    }
+
+    public int getNoOfMaidenOversBalled() {
+        return noOfMaidenOversBalled;
+    }
+
+    public int getNoOfWicketsTaken() {
+        return noOfWicketsTaken;
+    }
+
+    public int getRunsGiven() {
+        return runsGiven;
+    }
+
+    public Bowler(double playerRating, String playerName) {
         super(playerRating,playerName);
     }
 
@@ -29,26 +44,24 @@ public class Bowler extends Player {
         noOfMaidenOversBalled++;
     }
 
-    @Override
-    public void updatePlayerCareerStats() {
-        String bowlerName = playerName.toUpperCase();
-        if ( ! bowlerTournamentStats.containsKey(bowlerName) ) {
-            bowlerTournamentStats.put(bowlerName,this);
-            return;
-        }
-        Bowler bowler = bowlerTournamentStats.get(bowlerName);
-        bowler.noOfOversBalled += noOfOversBalled;
-        bowler.noOfMaidenOversBalled += noOfMaidenOversBalled;
-        bowler.noOfWicketsTaken += noOfWicketsTaken;
-        bowler.runsGiven += runsGiven;
-        bowler.noOfBallsPlayed += noOfBallsPlayed;
-        bowler.noOfBoundaries += noOfBoundaries;
-        bowler.noOfRunsScored += noOfRunsScored;
+    public void setCareerNumOversBowled(int overs) {
+        noOfOversBalled += overs;
     }
 
+    public void setCareerMaidenOversBalled(int overs) {
+        noOfMaidenOversBalled += overs;
+    }
+
+    public void setCareerWicketsTaken(int wicketsTaken) {
+        noOfWicketsTaken += wicketsTaken;
+    }
+
+    public void setCareerRunsGiven(int runs) {
+        runsGiven += runs;
+    }
     @Override
-    public void showStatsOfPlayer() {
-        System.out.println("Player " + this.playerName + " rating - " + this.playerRating + " runs scored - " + this.noOfRunsScored + " num balls played - " + this.noOfBallsPlayed + " num boundaries - " + this.noOfBoundaries);
-        System.out.println("num overs bowled - " + this.noOfOversBalled + " num wickets taken - " + this.noOfWicketsTaken + " runs given - " + this.runsGiven + " num maiden overs bowled - " + this.noOfMaidenOversBalled);
+    public String toString() {
+        return "Player " + this.playerName + " rating - " + this.playerRating + " runs scored - " + this.noOfRunsScored + " num balls played - " + this.noOfBallsPlayed + " num boundaries - " + this.noOfBoundaries
+         + "num overs bowled - " + this.noOfOversBalled + " num wickets taken - " + this.noOfWicketsTaken + " runs given - " + this.runsGiven + " num maiden overs bowled - " + this.noOfMaidenOversBalled;
     }
 }

@@ -1,6 +1,6 @@
-package com.cricketgame.pojo;
+package com.cricketgame.helper;
 
-class MatchUtil {
+public class MatchUtil {
     public static final int NUM_PLAYERS = 11;
 
     public static String getCurrentBallScore(String playerType,double batsmanRating,double bowlerRating) {

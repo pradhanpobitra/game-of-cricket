@@ -1,11 +1,16 @@
 package com.cricketgame.service;
 
-import com.cricketgame.repository.TeamRepo;
-import org.springframework.stereotype.Component;
+import com.cricketgame.repository.HashmapsRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class TeamService {
+
+    @Autowired
+    private HashmapsRepo hashmapsRepo;
+
     public String getNumTeamWins(String teamName) {
-        return TeamRepo.getNumOfTeamWins(teamName);
+        return hashmapsRepo.findById("1").get().getNumTeamWins(teamName);
     }
 }

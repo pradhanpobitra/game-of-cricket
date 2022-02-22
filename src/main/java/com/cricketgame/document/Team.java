@@ -1,11 +1,18 @@
-package com.cricketgame.pojo;
+package com.cricketgame.document;
 
-import com.cricketgame.repository.Players;
-import com.cricketgame.repository.TeamList;
-import com.cricketgame.repository.TeamRepo;
+import com.cricketgame.helper.MatchUtil;
+import com.cricketgame.pojo.Bowler;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Setting;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
+@Document(indexName = "team")
+@Setting(settingPath = "static/es-settings.json")
 public class Team {
     private int teamScore;
     private int teamWicketsLost;
@@ -13,6 +20,10 @@ public class Team {
     private int currentBowlerIndex;
     private ArrayList<Bowler> bowlers = new ArrayList<Bowler>();
     private final ArrayList<Player> player;
+    private final HashMap<String, Player> playerStats = new HashMap<>();
+
+    @Id
+    @Field(type = FieldType.Text)
     private final String teamName;
 
     public Team(Team team) {
@@ -91,17 +102,20 @@ public class Team {
         System.out.println("Team - " + teamName + " stats :");
         System.out.println(teamScore + "/" + teamWicketsLost);
         for(int  num = 0; num < MatchUtil.NUM_PLAYERS ; num++) {
-            player.get(num).showStatsOfPlayer();
+            player.get(num).toString();
         }
     }
 
-    public void storePlayerStatsInTeam(HashMap<String, Player> playerStats) {
+    public void storePlayerStatsInTeam() {
         for(int num = 0; num < MatchUtil.NUM_PLAYERS; num++) {
             playerStats.put(player.get(num).getPlayerName(),player.get(num));
         }
     }
 
-    public void increamentTeamWins() {
-        TeamRepo.increamentTeamWins(teamName);
+    public String getRunsScoredByPlayer(String playerName) {
+        if( !playerStats.containsKey(playerName) ) {
+            return null;
+        }
+        return playerStats.get(playerName).getNoOfRunsScored().toString();
     }
 }
