@@ -19,7 +19,6 @@ public class PlayerTournamentStatsService {
 
     @Autowired
     private MatchStatsService matchStatsService;
-
     private final Map<String,PlayerTournamentStats> allPlayersTournamentStats = new HashMap<>();
 
     public Integer getRunsScoredInTournament(final String playerName) {
@@ -39,17 +38,7 @@ public class PlayerTournamentStatsService {
         PlayerTournamentStats playerTournamentStats;
         final Map<String,Integer> allPlayerMatchStats = match.getRunsScoredByPlayers();
         for(final String playerName : allPlayerMatchStats.keySet()) {
-            if( ! allPlayersTournamentStats.containsKey(playerName) ) {
-                playerTournamentStats = new PlayerTournamentStats();
-                playerTournamentStats.setPlayerName(playerName).setRunsScoredInTournament(allPlayerMatchStats.get(playerName));
-                final List<Integer> matchesPlayerGotMOTM = new ArrayList<>();
-                playerTournamentStats.setMatchesPlayerGotManOfTheMatch((ArrayList<Integer>) matchesPlayerGotMOTM);
-            }
-            else {
-                playerTournamentStats = allPlayersTournamentStats.get(playerName);
-                playerTournamentStats.setRunsScoredInTournament(allPlayerMatchStats.get(playerName) + playerTournamentStats.getRunsScoredInTournament());
-            }
-            allPlayersTournamentStats.put(playerName,playerTournamentStats);
+            updatePlayerInfoInAllPlayerTournamentStatsMap(playerName,allPlayerMatchStats);
         }
         final String manOfTheMatch = match.getManOfTheMatch().getPlayerName();
         allPlayersTournamentStats.get(manOfTheMatch).getMatchesPlayerGotManOfTheMatch().add(match.getMatchId());
@@ -59,5 +48,20 @@ public class PlayerTournamentStatsService {
         for(final String playerName : allPlayersTournamentStats.keySet()) {
             playerTournamentStatsRepository.save(allPlayersTournamentStats.get(playerName));
         }
+    }
+
+    private void updatePlayerInfoInAllPlayerTournamentStatsMap(final String playerName,final Map<String,Integer> allPlayerMatchStats) {
+        PlayerTournamentStats playerTournamentStats;
+        if( ! allPlayersTournamentStats.containsKey(playerName) ) {
+            playerTournamentStats = new PlayerTournamentStats();
+            playerTournamentStats.setPlayerName(playerName).setRunsScoredInTournament(allPlayerMatchStats.get(playerName));
+            final List<Integer> matchesPlayerGotMOTM = new ArrayList<>();
+            playerTournamentStats.setMatchesPlayerGotManOfTheMatch((ArrayList<Integer>) matchesPlayerGotMOTM);
+        }
+        else {
+            playerTournamentStats = allPlayersTournamentStats.get(playerName);
+            playerTournamentStats.setRunsScoredInTournament(allPlayerMatchStats.get(playerName) + playerTournamentStats.getRunsScoredInTournament());
+        }
+        allPlayersTournamentStats.put(playerName,playerTournamentStats);
     }
 }

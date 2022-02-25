@@ -20,7 +20,6 @@ public class MatchService {
 
     @Autowired
     private TeamTournamentStatsService teamTournamentStatsService;
-
     public void playTournament(final Integer numOvers) {
         Match match;
         Team team1,team2;

@@ -13,7 +13,6 @@ public class TeamTournamentStatsService {
 
     @Autowired
     private TeamTournamentStatsRepository teamTournamentStatsRepository;
-
     private final Map<String,TeamTournamentStats> allTeamsTournamentStats = new HashMap<>();
 
     public Integer getNumOfWins(final String teamName) {

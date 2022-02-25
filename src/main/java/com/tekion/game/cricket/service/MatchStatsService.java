@@ -16,7 +16,6 @@ public class MatchStatsService {
 
     @Autowired
     private MatchStatsRepository matchStatsRepository;
-
     private final List<MatchStats> allMatchStats = new ArrayList<>();
 
     public Integer getRunsScoredByPlayerInMatch(final Integer matchId,final String playerName) {
